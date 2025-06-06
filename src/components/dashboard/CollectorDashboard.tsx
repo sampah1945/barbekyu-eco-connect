@@ -4,140 +4,121 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import {
-  TrendingUp,
-  TrendingDown,
-  DollarSign,
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { 
+  MapPin, 
+  TrendingUp, 
+  DollarSign, 
   Package,
-  Target,
   Clock,
-  MessageSquare,
-  MapPin,
-  Calendar,
+  Users,
   Star,
   Crown,
-  Zap,
-  AlertTriangle
+  BarChart3,
+  Calendar,
+  Navigation
 } from "lucide-react";
-import { sampleCollector, sampleOpportunities, categoryBreakdown } from "@/data/sampleData";
-import { formatPrice } from "@/data/subscriptionPlans";
+import { sampleCollector, sampleOpportunities, monthlyRevenue, categoryBreakdown } from "@/data/sampleData";
 
 export function CollectorDashboard() {
-  const collector = sampleCollector;
-  const subscriptionUsage = {
-    categoriesUsed: 13,
-    categoriesLimit: 13,
-    weightUsed: 478,
-    weightLimit: 1000,
-    radiusUsed: 4.2,
-    radiusLimit: 10
-  };
-
-  const daysUntilRenewal = 12;
-
   return (
     <div className="space-y-6">
-      {/* Welcome & Subscription Status */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="col-span-2 glass-card">
-          <CardHeader>
-            <div className="flex items-center justify-between">
+      {/* Subscription Status */}
+      <Card className="eco-card border-2 border-primary/20">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Crown className="h-6 w-6 text-primary" />
               <div>
-                <CardTitle className="text-2xl text-primary">
-                  Selamat Datang, {collector.businessInfo.companyName}! 🏭
-                </CardTitle>
-                <p className="text-muted-foreground mt-2">
-                  Temukan peluang limbah terbaik dan tingkatkan profit bisnis Anda
+                <CardTitle className="text-primary">PAKET {sampleCollector.subscription.tier.toUpperCase()} AKTIF</CardTitle>
+                <p className="text-sm text-muted-foreground">
+                  Rp 150.000/bulan • Berlaku s/d: 25 Juli 2024 (12 hari lagi)
                 </p>
               </div>
-              <div className="flex items-center gap-2">
-                <Star className="h-5 w-5 text-yellow-500 fill-current" />
-                <span className="font-semibold">{collector.rating}</span>
-              </div>
             </div>
-          </CardHeader>
-        </Card>
-
-        <Card className="tier-card bg-gradient-to-br from-purple-500 to-indigo-600 text-white">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <Crown className="h-6 w-6" />
-              <CardTitle className="text-white">PAKET ADVANCE</CardTitle>
+            <Badge className="bg-gradient-eco text-white">Aktif</Badge>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+            <div className="text-center">
+              <div className="text-sm text-muted-foreground">Akses Kategori</div>
+              <div className="font-semibold text-primary">13 Kategori</div>
             </div>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <div className="text-2xl font-bold">Rp 150.000/bulan</div>
-              <div className="text-sm opacity-90">
-                Berlaku s/d: 25 Juli 2024 ({daysUntilRenewal} hari lagi)
-              </div>
-              <div className="flex flex-wrap gap-1 mt-3">
-                <Badge variant="secondary" className="bg-white/20 text-white">13 Kategori</Badge>
-                <Badge variant="secondary" className="bg-white/20 text-white">1000kg</Badge>
-                <Badge variant="secondary" className="bg-white/20 text-white">10km</Badge>
-              </div>
+            <div className="text-center">
+              <div className="text-sm text-muted-foreground">Berat Limit</div>
+              <div className="font-semibold text-primary">1000kg</div>
             </div>
-          </CardContent>
-        </Card>
-      </div>
+            <div className="text-center">
+              <div className="text-sm text-muted-foreground">Radius</div>
+              <div className="font-semibold text-primary">10km</div>
+            </div>
+            <div className="text-center">
+              <div className="text-sm text-muted-foreground">Fitur</div>
+              <div className="font-semibold text-primary">Peta + Analytics</div>
+            </div>
+          </div>
+          <div className="flex gap-3">
+            <Button className="bg-gradient-eco text-white">🔄 Upgrade ke PRO</Button>
+            <Button variant="outline" className="border-primary/20">📊 Usage Report</Button>
+            <Button variant="outline" className="border-primary/20">💳 Payment History</Button>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Business Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="stats-card">
+        <Card className="eco-card">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Items Bought</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Items Bought</CardTitle>
             <Package className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-primary">{collector.stats.totalPurchased}</div>
-            <div className="flex items-center text-xs text-muted-foreground">
-              <TrendingUp className="h-3 w-3 mr-1 text-green-600" />
+            <div className="text-2xl font-bold text-primary">{sampleCollector.stats.totalPurchased} Items</div>
+            <div className="flex items-center text-xs text-green-600 mt-1">
+              <TrendingUp className="h-3 w-3 mr-1" />
               +12% bulan ini
             </div>
           </CardContent>
         </Card>
 
-        <Card className="stats-card">
+        <Card className="eco-card">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Spent</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Total Spent</CardTitle>
             <DollarSign className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-primary">
-              Rp {(collector.stats.totalSpent / 1000000).toFixed(1)}Jt
-            </div>
-            <div className="flex items-center text-xs text-muted-foreground">
-              <TrendingUp className="h-3 w-3 mr-1 text-green-600" />
+            <div className="text-2xl font-bold text-primary">Rp {(sampleCollector.stats.totalSpent / 1000000).toFixed(1)} Jt</div>
+            <div className="flex items-center text-xs text-green-600 mt-1">
+              <TrendingUp className="h-3 w-3 mr-1" />
               +18% bulan ini
             </div>
           </CardContent>
         </Card>
 
-        <Card className="stats-card">
+        <Card className="eco-card">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Avg per Kg</CardTitle>
-            <Target className="h-4 w-4 text-primary" />
+            <CardTitle className="text-sm font-medium text-muted-foreground">Avg per Kg</CardTitle>
+            <BarChart3 className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-primary">Rp 1.850</div>
-            <div className="flex items-center text-xs text-muted-foreground">
-              <TrendingDown className="h-3 w-3 mr-1 text-red-600" />
+            <div className="flex items-center text-xs text-red-600 mt-1">
+              <TrendingUp className="h-3 w-3 mr-1 rotate-180" />
               -5% market
             </div>
           </CardContent>
         </Card>
 
-        <Card className="stats-card">
+        <Card className="eco-card">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Profit Est.</CardTitle>
-            <TrendingUp className="h-4 w-4 text-primary" />
+            <CardTitle className="text-sm font-medium text-muted-foreground">Profit Est.</CardTitle>
+            <DollarSign className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-primary">
-              Rp {(collector.stats.profitEstimate / 1000).toFixed(0)}k
-            </div>
-            <div className="flex items-center text-xs text-muted-foreground">
-              <TrendingUp className="h-3 w-3 mr-1 text-green-600" />
+            <div className="text-2xl font-bold text-primary">Rp {(sampleCollector.stats.profitEstimate / 1000).toFixed(0)}k</div>
+            <div className="flex items-center text-xs text-green-600 mt-1">
+              <TrendingUp className="h-3 w-3 mr-1" />
               +25% bulan ini
             </div>
           </CardContent>
@@ -147,44 +128,34 @@ export function CollectorDashboard() {
       {/* Today's Opportunities */}
       <Card className="eco-card">
         <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-primary">🔥 Peluang Hari Ini</CardTitle>
-            <Badge className="bg-accent text-white animate-pulse">
-              <Zap className="h-3 w-3 mr-1" />
-              Real-time Updates
-            </Badge>
-          </div>
+          <CardTitle className="text-primary flex items-center gap-2">
+            🔥 HOT OPPORTUNITIES • Real-time Updates
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {sampleOpportunities.map((opp) => (
-              <div key={opp.id} className="flex items-center justify-between p-4 bg-white/50 rounded-lg border border-primary/10 hover:bg-primary/5 transition-colors">
-                <div className="flex items-center gap-4">
-                  <div className={`w-3 h-3 rounded-full ${
-                    opp.isNew ? 'bg-green-500 animate-pulse' : 
-                    opp.isCompetitive ? 'bg-red-500' : 
-                    opp.isUrgent ? 'bg-orange-500 animate-bounce' : 'bg-blue-500'
-                  }`} />
-                  <div>
+              <div key={opp.id} className="p-4 bg-white/50 rounded-lg border border-primary/10 hover:bg-primary/5 transition-colors">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
                     <div className="flex items-center gap-2">
-                      <span className="font-medium">{opp.title}</span>
-                      {opp.isNew && <Badge variant="secondary" className="bg-green-100 text-green-800">BARU!</Badge>}
-                      {opp.isCompetitive && <Badge variant="secondary" className="bg-red-100 text-red-800">🔥 {opp.competitorCount} pengepul lain</Badge>}
-                      {opp.isUrgent && <Badge variant="secondary" className="bg-orange-100 text-orange-800">⏰ Pickup hari ini</Badge>}
+                      {opp.isNew && <Badge className="bg-green-500 text-white text-xs">BARU!</Badge>}
+                      {opp.isCompetitive && <Badge className="bg-red-500 text-white text-xs">🔥</Badge>}
+                      {opp.isUrgent && <Badge className="bg-orange-500 text-white text-xs">⏰</Badge>}
                     </div>
-                    <div className="text-sm text-muted-foreground">
-                      💰 Rp {opp.price.toLocaleString('id-ID')} • 📍 {opp.distance}km • {opp.timePosted}
+                    <div>
+                      <div className="font-medium">{opp.title}</div>
+                      <div className="text-sm text-muted-foreground">
+                        Rp {opp.price.toLocaleString('id-ID')} • 📍 {opp.distance}km • {opp.timePosted}
+                        {opp.competitorCount > 0 && ` • 👥 ${opp.competitorCount} pengepul lain tertarik`}
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Button size="sm" variant="outline" className="border-primary/20">
-                    <MessageSquare className="h-4 w-4 mr-1" />
-                    Chat
-                  </Button>
-                  <Button size="sm" className="bg-gradient-eco text-white">
-                    Quick Bid
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button size="sm" className="bg-gradient-eco text-white">Quick Bid</Button>
+                    <Button size="sm" variant="outline" className="border-primary/20">💬 Chat</Button>
+                    <Button size="sm" variant="outline" className="border-primary/20">📍 Route</Button>
+                  </div>
                 </div>
               </div>
             ))}
@@ -192,134 +163,237 @@ export function CollectorDashboard() {
         </CardContent>
       </Card>
 
-      {/* Subscription Usage & Performance */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Subscription Usage */}
-        <Card className="eco-card">
-          <CardHeader>
-            <CardTitle className="text-primary">📊 Usage Bulan Ini</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <div className="flex justify-between text-sm mb-2">
-                <span>Akses Kategori</span>
-                <span>{subscriptionUsage.categoriesUsed}/{subscriptionUsage.categoriesLimit}</span>
-              </div>
-              <Progress value={100} className="h-2" />
-            </div>
-            <div>
-              <div className="flex justify-between text-sm mb-2">
-                <span>Berat Akses</span>
-                <span>{subscriptionUsage.weightUsed}kg / {subscriptionUsage.weightLimit}kg</span>
-              </div>
-              <Progress value={(subscriptionUsage.weightUsed / subscriptionUsage.weightLimit) * 100} className="h-2" />
-            </div>
-            <div>
-              <div className="flex justify-between text-sm mb-2">
-                <span>Radius Utilization</span>
-                <span>Avg: {subscriptionUsage.radiusUsed}km / {subscriptionUsage.radiusLimit}km</span>
-              </div>
-              <Progress value={(subscriptionUsage.radiusUsed / subscriptionUsage.radiusLimit) * 100} className="h-2" />
-            </div>
-            <div className="mt-4 p-3 bg-gradient-warning/10 rounded-lg border border-orange-200">
-              <div className="flex items-center gap-2 text-orange-800">
-                <AlertTriangle className="h-4 w-4" />
-                <span className="text-sm font-medium">Rekomendasi</span>
-              </div>
-              <p className="text-xs text-orange-700 mt-1">
-                Upgrade ke PRO untuk unlimited weight & radius 20km. 
-                ROI Analysis: +45% potential revenue
-              </p>
-            </div>
-          </CardContent>
-        </Card>
+      {/* Main Content Tabs */}
+      <Tabs defaultValue="analytics" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-4 lg:w-auto">
+          <TabsTrigger value="analytics">Analytics</TabsTrigger>
+          <TabsTrigger value="usage">Usage</TabsTrigger>
+          <TabsTrigger value="schedule">Schedule</TabsTrigger>
+          <TabsTrigger value="achievements">Achievements</TabsTrigger>
+        </TabsList>
 
-        {/* Quick Performance Stats */}
-        <Card className="eco-card">
-          <CardHeader>
-            <CardTitle className="text-primary">⚡ Performance Metrics</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Success Rate</span>
-              <div className="flex items-center gap-2">
-                <span className="font-medium">{collector.stats.successRate}%</span>
-                <Badge className="bg-green-100 text-green-800">Excellent</Badge>
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Avg Response Time</span>
-              <div className="flex items-center gap-2">
-                <span className="font-medium">{collector.stats.responseTime} min</span>
-                <Badge className="bg-blue-100 text-blue-800">Fast</Badge>
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Customer Rating</span>
-              <div className="flex items-center gap-2">
-                <span className="font-medium">{collector.rating}</span>
-                <div className="flex items-center">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className={`h-3 w-3 ${i < Math.floor(collector.rating) ? 'text-yellow-500 fill-current' : 'text-gray-300'}`} />
+        <TabsContent value="analytics" className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Revenue Trend */}
+            <Card className="eco-card">
+              <CardHeader>
+                <CardTitle className="text-primary">📈 Revenue Trend (6 months)</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="h-64 flex items-end justify-between gap-2">
+                  {monthlyRevenue.map((data, index) => (
+                    <div key={data.month} className="flex flex-col items-center flex-1">
+                      <div 
+                        className="w-full bg-gradient-eco rounded-t transition-all duration-500 hover:opacity-80"
+                        style={{ height: `${(data.amount / 350000) * 200}px` }}
+                      />
+                      <span className="text-xs text-muted-foreground mt-2">{data.month}</span>
+                    </div>
                   ))}
                 </div>
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Pickup Success</span>
-              <div className="flex items-center gap-2">
-                <span className="font-medium">92/95</span>
-                <Progress value={(92/95) * 100} className="w-16 h-2" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+              </CardContent>
+            </Card>
 
-      {/* Category Breakdown */}
-      <Card className="eco-card">
-        <CardHeader>
-          <CardTitle className="text-primary">📊 Breakdown Kategori (6 bulan)</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {categoryBreakdown.map((category) => (
-              <div key={category.category} className="text-center p-4 bg-white/50 rounded-lg">
-                <div className="text-lg font-bold text-primary">{category.percentage}%</div>
-                <div className="text-sm text-muted-foreground">{category.category}</div>
-                <div className="text-xs text-muted-foreground">
-                  Rp {(category.amount / 1000).toFixed(0)}k
+            {/* Category Breakdown */}
+            <Card className="eco-card">
+              <CardHeader>
+                <CardTitle className="text-primary">📊 Category Breakdown</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {categoryBreakdown.map((category) => (
+                    <div key={category.category} className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span>{category.category}</span>
+                        <span className="font-medium">{category.percentage}% (Rp {(category.amount / 1000).toFixed(0)}k)</span>
+                      </div>
+                      <Progress value={category.percentage} className="h-2" />
+                    </div>
+                  ))}
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                  <div 
-                    className="h-2 rounded-full" 
-                    style={{ 
-                      backgroundColor: category.color,
-                      width: `${category.percentage}%` 
-                    }}
-                  />
-                </div>
-              </div>
-            ))}
+              </CardContent>
+            </Card>
           </div>
-        </CardContent>
-      </Card>
 
-      {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Button className="h-16 bg-gradient-eco text-white hover:opacity-90">
-          <MapPin className="h-5 w-5 mr-2" />
-          Buka Peta Limbah
-        </Button>
-        <Button variant="outline" className="h-16 border-primary/20 hover:bg-primary/5">
-          <Calendar className="h-5 w-5 mr-2" />
-          Jadwal Pickup
-        </Button>
-        <Button variant="outline" className="h-16 border-primary/20 hover:bg-primary/5">
-          <MessageSquare className="h-5 w-5 mr-2" />
-          Chat Center (7)
-        </Button>
-      </div>
+          {/* Key Insights */}
+          <Card className="eco-card">
+            <CardHeader>
+              <CardTitle className="text-primary">🎯 Key Insights</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-3 bg-white/50 rounded-lg">
+                  <div className="text-sm font-medium">Elektronik demand +35% vs last month</div>
+                  <div className="text-xs text-muted-foreground">High opportunity category</div>
+                </div>
+                <div className="p-3 bg-white/50 rounded-lg">
+                  <div className="text-sm font-medium">Best pickup time: 10-14:00 (78% success rate)</div>
+                  <div className="text-xs text-muted-foreground">Optimize your schedule</div>
+                </div>
+                <div className="p-3 bg-white/50 rounded-lg">
+                  <div className="text-sm font-medium">Optimal radius: 3-7km (highest ROI)</div>
+                  <div className="text-xs text-muted-foreground">Focus area recommendation</div>
+                </div>
+                <div className="p-3 bg-white/50 rounded-lg">
+                  <div className="text-sm font-medium">Competitor activity: Medium in your area</div>
+                  <div className="text-xs text-muted-foreground">Market competition level</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="usage" className="space-y-6">
+          <Card className="eco-card">
+            <CardHeader>
+              <CardTitle className="text-primary">📊 PAKET ADVANCE - Usage Bulan Ini</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-6">
+                <div>
+                  <div className="flex justify-between text-sm mb-2">
+                    <span>📈 AKSES KATEGORI</span>
+                    <span>13/13 Available</span>
+                  </div>
+                  <Progress value={100} className="h-3" />
+                </div>
+
+                <div>
+                  <div className="flex justify-between text-sm mb-2">
+                    <span>⚖️ BERAT AKSES</span>
+                    <span>478kg / 1000kg limit</span>
+                  </div>
+                  <Progress value={48} className="h-3" />
+                </div>
+
+                <div>
+                  <div className="flex justify-between text-sm mb-2">
+                    <span>📍 RADIUS UTILIZATION</span>
+                    <span>Avg: 4.2km / 10km limit</span>
+                  </div>
+                  <Progress value={42} className="h-3" />
+                </div>
+
+                <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                  <div className="text-sm font-medium text-amber-800">🎯 RECOMMENDATION</div>
+                  <div className="text-sm text-amber-700 mt-1">
+                    Upgrade ke PRO untuk unlimited weight & 20km radius
+                  </div>
+                  <div className="text-xs text-amber-600 mt-1">
+                    ROI Analysis: +45% potential revenue with PRO features
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="schedule" className="space-y-6">
+          <Card className="eco-card">
+            <CardHeader>
+              <CardTitle className="text-primary flex items-center gap-2">
+                <Calendar className="h-5 w-5" />
+                Pickup Schedule Today
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="p-4 bg-white/50 rounded-lg border border-primary/10">
+                  <div className="flex items-center gap-3">
+                    <Clock className="h-5 w-5 text-primary" />
+                    <div className="flex-1">
+                      <div className="font-medium">09:00-10:00 • Pak Joko</div>
+                      <div className="text-sm text-muted-foreground">Elektronik 15kg • Jl. Basuki Rahmat</div>
+                    </div>
+                    <Button size="sm" variant="outline">
+                      <Navigation className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="p-4 bg-white/50 rounded-lg border border-primary/10">
+                  <div className="flex items-center gap-3">
+                    <Clock className="h-5 w-5 text-primary" />
+                    <div className="flex-1">
+                      <div className="font-medium">13:00-14:00 • Bu Ani</div>
+                      <div className="text-sm text-muted-foreground">Kardus 22kg • Jl. Raya Darmo</div>
+                    </div>
+                    <Button size="sm" variant="outline">
+                      <Navigation className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="p-4 bg-white/50 rounded-lg border border-primary/10">
+                  <div className="flex items-center gap-3">
+                    <Clock className="h-5 w-5 text-primary" />
+                    <div className="flex-1">
+                      <div className="font-medium">15:30-16:30 • Pak Wawan</div>
+                      <div className="text-sm text-muted-foreground">Besi 35kg • Jl. Ahmad Yani</div>
+                    </div>
+                    <Button size="sm" variant="outline">
+                      <Navigation className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                  <div className="text-sm">
+                    <strong>Capacity Used:</strong> 72kg/500kg (14%) • <strong>Distance:</strong> 18.5km • <strong>Est:</strong> 4h 30m
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="achievements" className="space-y-6">
+          <Card className="eco-card">
+            <CardHeader>
+              <CardTitle className="text-primary">🏆 Your Achievements</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div className="text-center p-4 bg-white/50 rounded-lg">
+                  <div className="text-2xl mb-2">🥇</div>
+                  <div className="font-medium">VOLUME KING</div>
+                  <div className="text-xs text-muted-foreground">50+ Items/month</div>
+                </div>
+                <div className="text-center p-4 bg-white/50 rounded-lg">
+                  <div className="text-2xl mb-2">🥈</div>
+                  <div className="font-medium">QUICK RESPONDER</div>
+                  <div className="text-xs text-muted-foreground">&lt;5min avg reply</div>
+                </div>
+                <div className="text-center p-4 bg-white/50 rounded-lg">
+                  <div className="text-2xl mb-2">🥉</div>
+                  <div className="font-medium">ECO CHAMPION</div>
+                  <div className="text-xs text-muted-foreground">100kg CO₂ saved</div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <div className="flex justify-between text-sm mb-2">
+                    <span>🎯 Progress to "WASTE WARRIOR"</span>
+                    <span>80% (15/20 deals)</span>
+                  </div>
+                  <Progress value={80} className="h-3" />
+                </div>
+
+                <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                  <div className="text-sm font-medium text-green-800">🎁 Rewards Available:</div>
+                  <ul className="text-sm text-green-700 mt-1 space-y-1">
+                    <li>• Unlock premium analytics features</li>
+                    <li>• Priority customer support</li>
+                    <li>• Early access to new categories</li>
+                    <li>• Monthly bonus cashback 2%</li>
+                  </ul>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

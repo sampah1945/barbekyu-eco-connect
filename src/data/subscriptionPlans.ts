@@ -1,5 +1,11 @@
 
-import { SubscriptionPlan, WasteCategory } from "@/types";
+import { SubscriptionPlan } from "@/types";
+
+export type WasteCategory = 
+  | 'aki' | 'elektronik' | 'kaca' | 'kaleng' | 'kain' 
+  | 'minyak_oli' | 'plastik' | 'styrofoam' | 'kardus' 
+  | 'kertas' | 'kayu_perabotan' | 'besi' | 'kuningan' 
+  | 'aluminium' | 'tembaga';
 
 export const WASTE_CATEGORIES: Record<WasteCategory, string> = {
   aki: "Aki",

@@ -7,6 +7,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppLayout } from "@/components/layout/AppLayout";
 import Index from "./pages/Index";
 import CollectorDashboard from "./pages/CollectorDashboard";
+import WasteInventory from "./pages/WasteInventory";
+import Transactions from "./pages/Transactions";
+import InteractiveMap from "./pages/InteractiveMap";
+import Chat from "./pages/Chat";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,11 +28,31 @@ const App = () => (
               <Index />
             </AppLayout>
           } />
+          <Route path="/inventory" element={
+            <AppLayout userRole="customer">
+              <WasteInventory />
+            </AppLayout>
+          } />
+          <Route path="/transactions" element={
+            <AppLayout userRole="customer">
+              <Transactions />
+            </AppLayout>
+          } />
           
           {/* Collector Routes */}
           <Route path="/collector" element={
             <AppLayout userRole="collector">
               <CollectorDashboard />
+            </AppLayout>
+          } />
+          <Route path="/collector/map" element={
+            <AppLayout userRole="collector">
+              <InteractiveMap />
+            </AppLayout>
+          } />
+          <Route path="/collector/chat" element={
+            <AppLayout userRole="collector">
+              <Chat />
             </AppLayout>
           } />
           
