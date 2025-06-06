@@ -1,15 +1,19 @@
 
-import { Customer, Collector, WasteItem, Transaction, Achievement, Notification } from "@/types";
+import { User, Customer, Collector, WasteItem, Offer, Transaction, Notification, Achievement, Analytics } from "@/types";
 
+// Sample Customer Data
 export const sampleCustomer: Customer = {
-  id: "customer-1",
-  name: "Andi Setiawan",
-  email: "andi@example.com",
-  phone: "+62812345678",
+  id: "cust-001",
+  name: "Andi Wijaya",
+  email: "andi.wijaya@email.com",
+  phone: "+62812-3456-7890",
   role: "customer",
-  avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-  address: "Jl. Raya Darmo No. 123, Surabaya",
-  location: { lat: -7.2775, lng: 112.7940 },
+  avatar: "/placeholder.svg",
+  address: "Jl. Raya Darmo No. 123, Surabaya Timur",
+  location: {
+    lat: -7.257472,
+    lng: 112.751389
+  },
   rating: 4.8,
   totalTransactions: 45,
   joinDate: "2024-01-15",
@@ -23,7 +27,7 @@ export const sampleCustomer: Customer = {
   },
   achievements: [
     {
-      id: "ach-1",
+      id: "ach-001",
       title: "Eco Warrior",
       description: "Jual 50+ item limbah",
       icon: "🥇",
@@ -31,281 +35,186 @@ export const sampleCustomer: Customer = {
       requirement: 50,
       progress: 45,
       isUnlocked: false
-    },
-    {
-      id: "ach-2", 
-      title: "Green Champion",
-      description: "Hemat 50kg CO₂",
-      icon: "🌱",
-      type: "environmental",
-      requirement: 50,
-      progress: 47.5,
-      isUnlocked: false
     }
   ]
 };
 
+// Sample Collector Data
 export const sampleCollector: Collector = {
-  id: "collector-1",
-  name: "CV Makmur Jaya",
-  email: "makmur@example.com", 
-  phone: "+62856789012",
+  id: "coll-001",
+  name: "Budi Santoso",
+  email: "budi@cvmakmurjaya.com",
+  phone: "+62813-5555-1234",
   role: "collector",
-  avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&h=150&fit=crop&crop=face",
-  address: "Jl. Industri Raya No. 45, Surabaya",
-  location: { lat: -7.2504, lng: 112.7688 },
+  avatar: "/placeholder.svg",
+  address: "Jl. Industri No. 45, Surabaya Barat",
+  location: {
+    lat: -7.250445,
+    lng: 112.738411
+  },
   rating: 4.9,
-  totalTransactions: 128,
-  joinDate: "2024-02-01",
+  totalTransactions: 187,
+  joinDate: "2024-03-01",
   isVerified: true,
   businessInfo: {
     companyName: "CV Makmur Jaya",
     license: "SIUP-123456789",
-    operatingHours: "08:00 - 17:00 (Senin-Sabtu)",
+    operatingHours: "08:00 - 17:00 (Mon-Sat)",
     serviceRadius: 15,
     vehicleCapacity: 500,
-    specialization: ["elektronik", "besi", "plastik", "aki"]
+    specialization: ["elektronik", "besi", "aki"]
   },
   subscription: {
     tier: "advance",
-    startDate: "2024-05-01",
-    endDate: "2024-08-01",
+    startDate: "2024-06-25",
+    endDate: "2024-07-25",
     isActive: true,
     isTrial: false,
     autoRenewal: true
   },
   stats: {
-    totalPurchased: 128,
+    totalPurchased: 187,
     totalSpent: 2100000,
     avgDealSize: 45000,
     profitEstimate: 890000,
-    successRate: 92,
+    successRate: 94.5,
     responseTime: 4.2
   }
 };
 
+// Sample Waste Items
 export const sampleWasteItems: WasteItem[] = [
   {
-    id: "waste-1",
-    customerId: "customer-1", 
-    title: "Elektronik Bekas (TV, Radio, HP)",
-    description: "Kumpulan elektronik bekas dalam kondisi tidak terpakai. TV 32 inch rusak, radio jadul, HP bekas. Semua bisa diambil bersamaan.",
+    id: "waste-001",
+    customerId: "cust-001",
+    title: "Elektronik Bekas Laptop & Printer",
+    description: "Laptop lama + printer inkjet yang masih bisa diservis",
     category: "elektronik",
     weight: 8.5,
     weightRange: "ringan",
     estimatedPrice: 120000,
-    images: [
-      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=300&fit=crop",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=300&fit=crop"
-    ],
+    images: ["/placeholder.svg", "/placeholder.svg"],
     location: {
       address: "Jl. Raya Darmo No. 123, Surabaya Timur",
-      lat: -7.2775,
-      lng: 112.7940
+      lat: -7.257472,
+      lng: 112.751389
     },
     status: "available",
-    postedDate: "2024-06-04",
+    postedDate: "2024-06-14T10:30:00Z",
     views: 24,
-    offers: [
-      {
-        id: "offer-1",
-        wasteItemId: "waste-1",
-        collectorId: "collector-1",
-        amount: 135000,
-        message: "Saya tertarik dengan elektronik ini. Bisa diambil hari ini?",
-        createdDate: "2024-06-04",
-        status: "pending"
-      }
-    ],
+    offers: [],
     isUrgent: false,
-    conditions: "Tidak ada komponen yang hilang, kondisi fisik masih utuh"
+    conditions: "Kondisi fisik baik, ada beberapa kerusakan minor"
   },
   {
-    id: "waste-2",
-    customerId: "customer-1",
-    title: "Kaleng Bekas Minuman",
-    description: "Kumpulan kaleng bekas minuman bersoda dan bir. Sudah dicuci bersih, siap untuk didaur ulang.",
-    category: "kaleng", 
+    id: "waste-002",
+    customerId: "cust-002", 
+    title: "Kaleng Bekas Campur",
+    description: "Kaleng minuman dan makanan bersih",
+    category: "kaleng",
     weight: 3.2,
     weightRange: "ringan",
     estimatedPrice: 15000,
-    images: [
-      "https://images.unsplash.com/photo-1500673922987-e212871fec22?w=400&h=300&fit=crop"
-    ],
+    images: ["/placeholder.svg"],
     location: {
-      address: "Jl. Pemuda No. 67, Surabaya Selatan",
-      lat: -7.3200,
-      lng: 112.7300
+      address: "Jl. Pemuda No. 45, Surabaya Selatan",
+      lat: -7.289472,
+      lng: 112.751389
     },
     status: "negotiating",
-    postedDate: "2024-06-02",
+    postedDate: "2024-06-11T14:15:00Z",
     views: 12,
-    offers: [
-      {
-        id: "offer-2",
-        wasteItemId: "waste-2", 
-        collectorId: "collector-1",
-        amount: 18000,
-        message: "Harga pas, bisa ambil besok pagi?",
-        createdDate: "2024-06-03",
-        status: "pending"
-      }
-    ],
+    offers: [],
     isUrgent: false,
-    conditions: "Kaleng dalam kondisi bersih, tidak penyok"
-  },
-  {
-    id: "waste-3",
-    customerId: "customer-1",
-    title: "Kardus Bekas Packing",
-    description: "Kardus bekas dari online shop, berbagai ukuran. Kondisi masih bagus, tidak sobek atau basah.",
-    category: "kardus",
-    weight: 25,
-    weightRange: "sedang", 
-    estimatedPrice: 30000,
-    images: [
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=400&h=300&fit=crop"
-    ],
-    location: {
-      address: "Jl. Ahmad Yani No. 89, Surabaya Pusat",
-      lat: -7.2650,
-      lng: 112.7520
-    },
-    status: "scheduled",
-    postedDate: "2024-06-01",
-    pickupDate: "2024-06-07",
-    views: 18,
-    offers: [
-      {
-        id: "offer-3",
-        wasteItemId: "waste-3",
-        collectorId: "collector-1", 
-        amount: 35000,
-        message: "Deal, saya ambil besok jam 10 pagi ya",
-        createdDate: "2024-06-02",
-        status: "accepted",
-        pickupDate: "2024-06-07",
-        pickupTime: "10:00"
-      }
-    ],
-    isUrgent: false,
-    conditions: "Kardus kering, tidak ada noda minyak"
+    conditions: "Sudah dibersihkan dan dipisahkan"
   }
 ];
 
-export const sampleTransactions: Transaction[] = [
-  {
-    id: "txn-1",
-    wasteItemId: "waste-completed-1",
-    customerId: "customer-1",
-    collectorId: "collector-1",
-    amount: 85000,
-    weight: 12,
-    status: "completed",
-    paymentMethod: "cash",
-    pickupDate: "2024-06-15",
-    completedDate: "2024-06-15",
-    rating: {
-      customerRating: 5,
-      collectorRating: 5,
-      customerReview: "Pengepul profesional, tepat waktu",
-      collectorReview: "Pelanggan ramah, limbah sesuai deskripsi"
-    },
-    invoice: {
-      number: "TXN001245",
-      items: [
-        {
-          description: "Aki Bekas",
-          weight: 12,
-          pricePerKg: 7083,
-          total: 85000
-        }
-      ],
-      subtotal: 85000,
-      tax: 0,
-      total: 85000
-    }
-  }
-];
-
-export const sampleNotifications: Notification[] = [
-  {
-    id: "notif-1",
-    userId: "customer-1",
-    type: "offer",
-    title: "Penawaran Baru!",
-    message: "Pak Budi tertarik dengan limbah elektronik Anda (Rp 135.000)",
-    isRead: false,
-    createdDate: "2024-06-06T10:30:00Z", 
-    priority: "medium"
-  },
-  {
-    id: "notif-2",
-    userId: "customer-1",
-    type: "system",
-    title: "Tips Harian",
-    message: "Foto yang baik meningkatkan respon 3x lipat! Gunakan cahaya alami untuk hasil terbaik.",
-    isRead: false,
-    createdDate: "2024-06-06T09:15:00Z",
-    priority: "low"
-  },
-  {
-    id: "notif-3",
-    userId: "customer-1",
-    type: "achievement",
-    title: "Hampir Mencapai Target!",
-    message: "5 item lagi untuk membuka badge 'Eco Warrior' 🏆",
-    isRead: true,
-    createdDate: "2024-06-05T16:45:00Z",
-    priority: "medium"
-  }
-];
-
-// Sample data untuk collector dashboard
+// Sample Opportunities for Collectors
 export const sampleOpportunities = [
   {
-    id: "opp-1",
+    id: "opp-001",
     title: "Elektronik 15kg",
     price: 180000,
     distance: 1.2,
     timePosted: "3 menit lalu",
     isNew: true,
-    category: "elektronik"
+    isCompetitive: false,
+    isUrgent: false,
+    competitorCount: 0
   },
   {
-    id: "opp-2", 
+    id: "opp-002", 
     title: "Besi 45kg",
     price: 320000,
     distance: 2.8,
     timePosted: "15 menit lalu",
+    isNew: false,
     isCompetitive: true,
-    competitorCount: 2,
-    category: "besi"
+    isUrgent: false,
+    competitorCount: 2
   },
   {
-    id: "opp-3",
+    id: "opp-003",
     title: "Aki Bekas 8kg", 
     price: 65000,
     distance: 0.9,
     timePosted: "1 jam lalu",
+    isNew: false,
+    isCompetitive: false,
     isUrgent: true,
-    pickupToday: true,
-    category: "aki"
+    competitorCount: 0
   }
 ];
 
+// Sample Monthly Revenue Data
 export const monthlyRevenue = [
-  { month: "Jan", amount: 1500000 },
-  { month: "Feb", amount: 1800000 },
-  { month: "Mar", amount: 2200000 },
-  { month: "Apr", amount: 1900000 },
-  { month: "Mei", amount: 2500000 },
-  { month: "Jun", amount: 2100000 }
+  { month: "Jan", amount: 150000 },
+  { month: "Feb", amount: 220000 },
+  { month: "Mar", amount: 180000 },
+  { month: "Apr", amount: 280000 },
+  { month: "Mei", amount: 320000 },
+  { month: "Jun", amount: 250000 }
 ];
 
+// Sample Category Breakdown
 export const categoryBreakdown = [
-  { category: "Aki", percentage: 35, amount: 742000, color: "#ef4444" },
-  { category: "Elektronik", percentage: 28, amount: 594000, color: "#3b82f6" },
-  { category: "Besi", percentage: 22, amount: 467000, color: "#6b7280" },
-  { category: "Kaleng", percentage: 15, amount: 318000, color: "#f59e0b" }
+  { category: "Elektronik", percentage: 35, amount: 742000, color: "#3B82F6" },
+  { category: "Besi", percentage: 28, amount: 594000, color: "#EF4444" },
+  { category: "Aki", percentage: 22, amount: 467000, color: "#10B981" },
+  { category: "Kaleng", percentage: 15, amount: 318000, color: "#F59E0B" }
+];
+
+// Sample Notifications
+export const sampleNotifications: Notification[] = [
+  {
+    id: "notif-001",
+    userId: "cust-001",
+    type: "offer",
+    title: "Penawaran Baru!",
+    message: "Pak Budi tertarik dengan limbah elektronik Anda",
+    isRead: false,
+    createdDate: "2024-06-16T10:25:00Z",
+    priority: "medium"
+  },
+  {
+    id: "notif-002", 
+    userId: "cust-001",
+    type: "system",
+    title: "Harga Naik!",
+    message: "Harga limbah plastik naik 15% hari ini",
+    isRead: false,
+    createdDate: "2024-06-16T10:12:00Z", 
+    priority: "low"
+  },
+  {
+    id: "notif-003",
+    userId: "cust-001", 
+    type: "achievement",
+    title: "Tips Foto",
+    message: "Foto yang baik meningkatkan respon 3x lipat",
+    isRead: true,
+    createdDate: "2024-06-16T09:00:00Z",
+    priority: "low"
+  }
 ];
