@@ -17,6 +17,7 @@ import { CollectorSubscription } from "@/components/subscription/CollectorSubscr
 import { EnvironmentalImpact } from "@/components/environmental/EnvironmentalImpact";
 import { Community } from "@/components/community/Community";
 import { CustomerSettings } from "@/components/settings/CustomerSettings";
+import CollectorSettingsPage from "./pages/collector/Settings";
 
 const queryClient = new QueryClient();
 
@@ -88,6 +89,11 @@ const App = () => (
           <Route path="/collector/subscription" element={
             <AppLayout userRole="collector">
               <CollectorSubscription />
+            </AppLayout>
+          } />
+          <Route path="/collector/settings" element={
+            <AppLayout userRole="collector">
+              <CollectorSettingsPage />
             </AppLayout>
           } />
           
