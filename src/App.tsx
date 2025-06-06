@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,6 +11,12 @@ import Transactions from "./pages/Transactions";
 import InteractiveMap from "./pages/InteractiveMap";
 import Chat from "./pages/Chat";
 import NotFound from "./pages/NotFound";
+import { CollectorAnalytics } from "@/components/analytics/CollectorAnalytics";
+import { CollectorSchedule } from "@/components/schedule/CollectorSchedule";
+import { CollectorSubscription } from "@/components/subscription/CollectorSubscription";
+import { EnvironmentalImpact } from "@/components/environmental/EnvironmentalImpact";
+import { Community } from "@/components/community/Community";
+import { CustomerSettings } from "@/components/settings/CustomerSettings";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +43,21 @@ const App = () => (
               <Transactions />
             </AppLayout>
           } />
+          <Route path="/environmental" element={
+            <AppLayout userRole="customer">
+              <EnvironmentalImpact />
+            </AppLayout>
+          } />
+          <Route path="/community" element={
+            <AppLayout userRole="customer">
+              <Community />
+            </AppLayout>
+          } />
+          <Route path="/settings" element={
+            <AppLayout userRole="customer">
+              <CustomerSettings />
+            </AppLayout>
+          } />
           
           {/* Collector Routes */}
           <Route path="/collector" element={
@@ -50,9 +70,24 @@ const App = () => (
               <InteractiveMap />
             </AppLayout>
           } />
+          <Route path="/collector/analytics" element={
+            <AppLayout userRole="collector">
+              <CollectorAnalytics />
+            </AppLayout>
+          } />
+          <Route path="/collector/schedule" element={
+            <AppLayout userRole="collector">
+              <CollectorSchedule />
+            </AppLayout>
+          } />
           <Route path="/collector/chat" element={
             <AppLayout userRole="collector">
               <Chat />
+            </AppLayout>
+          } />
+          <Route path="/collector/subscription" element={
+            <AppLayout userRole="collector">
+              <CollectorSubscription />
             </AppLayout>
           } />
           
